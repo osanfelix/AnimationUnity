@@ -21,18 +21,22 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		// Agacharse
 		if(Input.GetKey(KeyCode.C))
 			anim.SetBool(crouchHash, true);
 		else
 			anim.SetBool(crouchHash, false);
 
+
+		// Saltar
 		if (Input.GetKeyDown(KeyCode.Space))
 			anim.SetTrigger(jumpHash);
 
-		float axisHorizontal = Input.GetKey(KeyCode.LeftShift) ? Input.GetAxis("Horizontal") * 2 : Input.GetAxis("Horizontal");
-		h = Mathf.Lerp(h, axisHorizontal, Time.deltaTime * 10);
-		v = Input.GetAxis("Vertical");
 
+		// Girar, caminar y correr
+		float axisHorizontal = Input.GetAxis("Horizontal");
+		h = Mathf.Lerp(h, axisHorizontal, Time.deltaTime * 10);
+		v = Input.GetKey(KeyCode.LeftShift) ? Input.GetAxis("Vertical") * 2 : Input.GetAxis("Vertical");
 
 		anim.SetFloat(speedHash, v);
 		anim.SetFloat(turnHash, h);
