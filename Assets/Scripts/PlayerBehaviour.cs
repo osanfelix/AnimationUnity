@@ -39,25 +39,25 @@ public class PlayerBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-		if (Input.GetKey(KeyCode.UpArrow))
+		if (Input.GetKey(KeyCode.UpArrow) || CrossButton.GetInput(InputType.UP))
 		{
 			if (Input.GetKey(KeyCode.RightShift))
 				speed = runSpeed;
 			else
 				speed = walkSpeed;
 		}
-		else if (Input.GetKey(KeyCode.DownArrow))
+		else if (Input.GetKey(KeyCode.DownArrow) || CrossButton.GetInput(InputType.DOWN))
 		{
 			speed = -walkSpeed;
 		}
 		else
 			speed = 0;
 
-		if (Input.GetKey(KeyCode.LeftArrow))
+		if (Input.GetKey(KeyCode.LeftArrow) || CrossButton.GetInput(InputType.LEFT))
 		{
 			angularSpeed = -rotateSpeed;
 		}
-		else if (Input.GetKey(KeyCode.RightArrow))
+		else if (Input.GetKey(KeyCode.RightArrow) || CrossButton.GetInput(InputType.RIGHT))
 		{
 			angularSpeed = rotateSpeed;
 		}
