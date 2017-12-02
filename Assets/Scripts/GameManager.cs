@@ -14,34 +14,55 @@ public class GameManager : MonoBehaviour
 	public PlayerBehaviour player = null;
 	public List<SkeletonBehaviour> enemiesList = null;
 
+	List<SkeletonBehaviour> currentEnemiesList = null;
+
 	int _score = 0;
-	public Text scoreText;
+	public bool sound = true;
 
-
-	// Use this for initialization
 	void Start ()
 	{
-		foreach(SkeletonBehaviour skeleton in enemiesList)
+		currentEnemiesList = new List<SkeletonBehaviour>();
+		reset();
+
+		KeyFunction.createInstance(KeyCode.R, reset);
+
+	}
+
+	private void reset()
+	{
+		player.reset();
+		player.pause = false;
+		_score = 0;
+
+		currentEnemiesList.Clear();
+		foreach (SkeletonBehaviour skeleton in enemiesList)
 		{
 			skeleton.setPlayer(player);
+			skeleton.reset();
+
+			currentEnemiesList.Add(skeleton);
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	#region UI EVENTS
+	public void onStartGameButton()
+	{
+		reset();
+		// Hide Main Menu
+		UIManager.instance.hideMainMenu();
+		UIManager.instance.updateScore(0);
 	}
 
-
-	#region UI
-	public void onExitButton()
+	public void onExitGameButton()
 	{
-
+		// Show Main Menu
+		UIManager.instance.showMainMenu();
+		player.pause = true;
 	}
 
 	public void updateScoreUI()
 	{
-		scoreText.text = _score.ToString();
+		UIManager.instance.updateScore(_score);
 	}
 	#endregion
 
@@ -49,7 +70,7 @@ public class GameManager : MonoBehaviour
 	public void killEnemy(SkeletonBehaviour enemy)
 	{
 		enemy.kill();
-		enemiesList.Remove(enemy);
+		currentEnemiesList.Remove(enemy);
 		Debug.Log(enemy.name + " eliminado.");
 
 		// Increase score
@@ -57,11 +78,18 @@ public class GameManager : MonoBehaviour
 		updateScoreUI();
 
 		// Check kill all enemies?
-		if (enemiesList.Count == 0)
+		if (currentEnemiesList.Count == 0)
 		{
 			// Finish!!
-			Debug.Log("Finish!!!!!");
+			UIManager.instance.showEndPanel(true);
+			player.pause = true;
 		}
+	}
+
+	public void playerDead()
+	{
+		UIManager.instance.showEndPanel(false);
+		player.pause = true;
 	}
 
 	public void attackPlayer()

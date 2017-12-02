@@ -44,7 +44,7 @@ public class SkeletonBehaviour : MonoBehaviour
 			}
 			timeToAttack += Time.deltaTime;
 		}
-		GetComponent<BoxCollider>().center = new Vector3(GetComponent<BoxCollider>().center.x, GetComponent<BoxCollider>().center.y, colliderZ + anim.GetFloat("Distance")*0.1f);
+		GetComponent<BoxCollider>().center = new Vector3(GetComponent<BoxCollider>().center.x, GetComponent<BoxCollider>().center.y, colliderZ + anim.GetFloat("Distance")*0.2f);
 	}
 
 	public void attack()
@@ -57,6 +57,14 @@ public class SkeletonBehaviour : MonoBehaviour
 		dead = true;
 		anim.SetTrigger(deadHash);
 		GetComponent<Collider>().enabled = false;
+	}
+
+	public void reset()
+	{
+		if(anim != null)
+			anim.Play("Idle");
+		dead = false;
+		GetComponent<Collider>().enabled = true;
 	}
 
 	private void OnCollisionStay(Collision collision)

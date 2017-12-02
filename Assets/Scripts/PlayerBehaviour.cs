@@ -28,6 +28,14 @@ public class PlayerBehaviour : MonoBehaviour
 
 	int lives = 3;
 
+	bool _paused = false;
+
+	public bool pause
+	{
+		get { return _paused; }
+		set { _paused = value; }
+	}
+
 	// Use this for initialization
 	void Start()
 	{
@@ -39,6 +47,8 @@ public class PlayerBehaviour : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
+		if (_paused) return;
+
 		if (Input.GetKey(KeyCode.UpArrow) || CrossButton.GetInput(InputType.UP))
 		{
 			if (Input.GetKey(KeyCode.RightShift))
@@ -66,14 +76,35 @@ public class PlayerBehaviour : MonoBehaviour
 
 			anim.SetFloat(speedHash, speed);
 
-		if (Input.GetKeyDown(KeyCode.Space) && ! attacking)
-		{
-			anim.SetTrigger(attackHash);
-		}
-
 		rigid.MovePosition(transform.position + transform.forward * Time.deltaTime * anim.GetFloat(speedHash));
 		rigid.MoveRotation(transform.rotation * Quaternion.Euler(transform.up * Time.deltaTime * angularSpeed));
 		GetComponent<BoxCollider>().center = new Vector3(GetComponent<BoxCollider>().center.x, GetComponent<BoxCollider>().center.y, colliderZ + anim.GetFloat("Distance") * 10);
+	}
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+		{
+			anim.SetTrigger(attackHash);
+			Debug.Log("ATTACK");
+		}
+	}
+
+	public void reset()
+	{
+		lives = 3;
+		recievingDamage = false;
+		attacking = false;
+
+		anim.Play("Base Layer.Idle");
+		anim.Play("Attack Layer.Idle");
+
+		anim.ResetTrigger("Dead");
+		anim.ResetTrigger(attackHash);
+
+		// Set Position
+		transform.position = Vector3.zero;
+		transform.rotation = Quaternion.identity;
 	}
 
 	public void recieveDamage()
@@ -81,16 +112,19 @@ public class PlayerBehaviour : MonoBehaviour
 		stateInfo = anim.GetCurrentAnimatorStateInfo(1);
 		if (!recievingDamage)
 		{
-			anim.SetTrigger(takeDamageHash);
-			recievingDamage = true;
-
-			StartCoroutine(timeDamage());
-
 			lives--;
-			if(lives <= 0)
+			if (lives <= 0)
 			{
-				// Finish game LOOSE
-				//TODO
+				// Finish game LOSE
+				GameManager.instance.playerDead();
+				anim.SetTrigger("Dead");
+			}
+			else
+			{
+				anim.SetTrigger(takeDamageHash);
+				recievingDamage = true;
+
+				StartCoroutine(timeDamage());
 			}
 		}
 	}

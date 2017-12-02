@@ -11,7 +11,6 @@ public class CrossButton : UIBehaviour
 	static InputType input2 = InputType.NONE;
 	public static bool GetInput(InputType input)
 	{
-		Debug.Log(input1 + " - " + input2);
 		return input1 == input || input2 == input;
 	}
 	#endregion
