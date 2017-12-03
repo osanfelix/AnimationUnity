@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class PanelBehaviour : MonoBehaviour {
-
-	public GameObject textWin = null;
-	public GameObject textLose = null;
+public class FinalPanelBehaviour : MonoBehaviour
+{
+	// Variables que apunta al texto
+	public  Text finalText = null;
 
 	Animator anim = null;
 
@@ -18,16 +17,14 @@ public class PanelBehaviour : MonoBehaviour {
 	public void showWin()
 	{
 		showPanel();
-		textWin.SetActive(true);
-		textLose.SetActive(false);
+		finalText.text = "Mission completed!!";
 		startAnimation();
 	}
 
 	public void showLose()
 	{
 		showPanel();
-		textWin.SetActive(false);
-		textLose.SetActive(true);
+		finalText.text = "Mission failed!!";
 		startAnimation();
 	}
 
