@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
 
 	public bool soundEnabled	// Indica si el sonido esta activado
 	{
-		get;
-		set;
+		get { return _soundEnabled; }
+		set { _soundEnabled = value; }
 	}
 
 	// KEEP
