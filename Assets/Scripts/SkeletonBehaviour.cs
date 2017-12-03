@@ -33,7 +33,6 @@ public class SkeletonBehaviour : MonoBehaviour
 		_originalColliderZ = GetComponent<BoxCollider>().center.z;
 	}
 	
-	
 	void FixedUpdate ()
 	{
 		// Si estoy muerto ==> No hago nada
@@ -86,7 +85,8 @@ public class SkeletonBehaviour : MonoBehaviour
 		// Obtener el estado actual
 		stateInfo = anim.GetCurrentAnimatorStateInfo(0);
 
-		// Si el estado es 'Attack' atacamos a Player (mirar etiqueta)
+		// Si el estado es 'Attack' y el parametro Distance es > 0 atacamos a Player (comprobar etiqueta).
+		// La Distancia >0 es para acotar el ataque sólo al momento que mueve la espada (no toda la animación).
 		if (stateInfo.fullPathHash == attackStateHash && anim.GetFloat("Distance") > 0)
 		{
 			if (collision.gameObject.tag == "Player")

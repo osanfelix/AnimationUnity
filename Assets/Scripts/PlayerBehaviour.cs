@@ -25,9 +25,6 @@ public class PlayerBehaviour : MonoBehaviour
 	AnimatorStateInfo stateInfo = default(AnimatorStateInfo);
 	Rigidbody rigid = null;
 
-	bool recievingDamage = false;	// AVOID
-	bool attacking = false;			// AVOID
-
 	// Variables internas:	KEEP
 	int _lives = 3;
 	bool _paused = false;
@@ -98,11 +95,9 @@ public class PlayerBehaviour : MonoBehaviour
 	private void Update()
 	{
 		if (_paused) return;	// KEEP
-		if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			attacking = true;
 			anim.SetTrigger(attackHash);
-			StartCoroutine(timeAttack());
 		}
 	}
 
@@ -111,8 +106,6 @@ public class PlayerBehaviour : MonoBehaviour
 	{
 		//Reiniciar el numero de vidas
 		_lives = 3;
-		recievingDamage = false;
-		attacking = false;
 
 		// Pausamos a Player
 		_paused = true;
@@ -135,43 +128,21 @@ public class PlayerBehaviour : MonoBehaviour
 	{
 		// Restar una vida
 		// Si no me quedan vidas notificar al GameManager (notifyPlayerDead) y disparar trigger "Dead"
-		if (!recievingDamage)
+		_lives--;
+		if (_lives <= 0)
 		{
-			_lives--;
-			if (_lives <= 0)
-			{
-				// Notify player loses the game
-				GameManager.instance.notifyPlayerDead();
-				anim.SetTrigger("Dead");
-			}
-			// Si aun me quedan vidas dispara el trigger TakeDamage
-			else
-			{
-				anim.SetTrigger(takeDamageHash);
-				recievingDamage = true;
-
-				StartCoroutine(timeDamage());
-			}
+			// Notify player loses the game
+			GameManager.instance.notifyPlayerDead();
+			anim.SetTrigger("Dead");
+		}
+		// Si aun me quedan vidas dispara el trigger TakeDamage
+		else
+		{
+			anim.SetTrigger(takeDamageHash);
 		}
 	}
 
-	// AVOID
-	IEnumerator timeDamage()
-	{
-		yield return new WaitForSeconds(1);
-		recievingDamage = false;
-		yield break;
-	}
-
-	// AVIOD
-	IEnumerator timeAttack()
-	{
-		yield return new WaitForSeconds(1f);
-		attacking = false;
-		yield break;
-	}
-
-	private void OnCollisionStay(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
 		// Obtener estado actual de la capa Attack Layer
 		stateInfo = anim.GetCurrentAnimatorStateInfo(1);
