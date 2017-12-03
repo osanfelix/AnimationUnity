@@ -53,15 +53,15 @@ public class PlayerBehaviour : MonoBehaviour
 
 		// Calculo de velocidad lineal (_speed) y angular (_angularSpeed) en función del Input
 		// Si camino/corro hacia delante delante: _speed = walkSpeed   /  _speed = runSpeed
-		if (Input.GetKey(KeyCode.UpArrow) || CrossButton.GetInput(InputType.UP))
+		if (Input.GetKey(KeyCode.UpArrow) || UICrossButton.GetInput(InputType.UP))
 		{
-			if (Input.GetKey(KeyCode.RightShift))
+			if (Input.GetKey(KeyCode.RightShift) || UIButton.GetInput(ButtonType.RUN))
 				_speed = runSpeed;
 			else
 				_speed = walkSpeed;
 		}
 		// Si camino/corro hacia delante detras: _speed = -walkSpeed   /  _speed = -runSpeed
-		else if (Input.GetKey(KeyCode.DownArrow) || CrossButton.GetInput(InputType.DOWN))
+		else if (Input.GetKey(KeyCode.DownArrow) || UICrossButton.GetInput(InputType.DOWN))
 		{
 			_speed = -walkSpeed;
 		}
@@ -70,12 +70,12 @@ public class PlayerBehaviour : MonoBehaviour
 			_speed = 0;
 
 		// Si giro izquierda: _angularSpeed = -rotateSpeed;
-		if (Input.GetKey(KeyCode.LeftArrow) || CrossButton.GetInput(InputType.LEFT))
+		if (Input.GetKey(KeyCode.LeftArrow) || UICrossButton.GetInput(InputType.LEFT))
 		{
 			_angularSpeed = -rotateSpeed;
 		}
 		// Si giro derecha: _angularSpeed = rotateSpeed;
-		else if (Input.GetKey(KeyCode.RightArrow) || CrossButton.GetInput(InputType.RIGHT))
+		else if (Input.GetKey(KeyCode.RightArrow) || UICrossButton.GetInput(InputType.RIGHT))
 		{
 			_angularSpeed = rotateSpeed;
 		}
@@ -98,7 +98,7 @@ public class PlayerBehaviour : MonoBehaviour
 	private void Update()
 	{
 		if (_paused) return;	// KEEP
-		if (Input.GetKeyDown(KeyCode.Space) && !attacking)
+		if ((Input.GetKeyDown(KeyCode.Space) || UIButton.GetInput(ButtonType.ATTACK)) && !attacking)
 		{
 			attacking = true;
 			anim.SetTrigger(attackHash);

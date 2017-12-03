@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public enum InputType {NONE, UP, DOWN, LEFT, RIGHT}
 
-public class CrossButton : UIBehaviour
+public class UICrossButton : UIBehaviour
 {
 	#region STATIC
 	static InputType input1 = InputType.NONE;
