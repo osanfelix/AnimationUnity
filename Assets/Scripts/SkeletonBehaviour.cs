@@ -61,7 +61,7 @@ public class SkeletonBehaviour : MonoBehaviour
 		// TODO
 	}
 
-	private void OnCollisionStay(Collision collision)
+	private void OnCollisionEnter(Collision collision)
 	{
 		// Obtener el estado actual
 		// TODO
