@@ -14,40 +14,40 @@ public class UIManager : MonoBehaviour
 
 	// Sub-menus durante el juego
 	public FinalPanelBehaviour endPanel	= null;	// Panel de fin de juego (Dentro de la interfaz del juego)
-	public Text scoreText				;						// Puntuacion del juego
+	public Text scoreText				= null;	// Puntuacion del juego
 
 
 	public void showMainMenu()
 	{
 		// Mostrar objeto mainMenu
-		mainMenu.SetActive(true);
+		// TODO
+
 		// Ocultar endPanel
-		hideEndPanel();
+		// TODO
 	}
 
 	public void hideMainMenu()
 	{
 		// Ocultar objeto mainMenu
-		mainMenu.SetActive(false);
+		// TODO
 	}
 
 	public void showEndPanel(bool win)
 	{
 		// Mostrar panel fin de juego (ganar o perder)
-		if (win)	endPanel.showWin();
-		else		endPanel.showLose();	
+		// TODO
 	}
 
 	public void hideEndPanel()
 	{
 		// Ocultar el panel
-		endPanel.hide();
+		// TODO
 	}
 
 	public void updateScore(int score)
 	{
 		// Actualizar el 'UI text' con la puntuacion 
-		scoreText.text = score.ToString();
+		// TODO
 	}
 
 }

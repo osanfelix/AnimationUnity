@@ -20,32 +20,26 @@ public class GameManager : MonoBehaviour
 
 	// Variables internas
 	int _score = 0;
-	bool _soundEnabled = true;
+	public bool soundEnabled = true;
 
-	public bool soundEnabled	// Indica si el sonido esta activado
-	{
-		get;
-		set;
-	}
 
-	// KEEP
 	void Start ()
 	{
 		currentEnemiesList = new List<SkeletonBehaviour>();
-		reset();	// Reiniciamos el juego
-
-		KeyFunction.createInstance(KeyCode.R, reset);	// DELETE
+		
+		// Reiniciamos el juego
+		// TODO
 	}
 
-	private void reset()
+	private void reset()		// Funcion para reiniciar el juego
 	{
 		// Reiniciamos a Player
-		player.reset();
+		// TODO
 
 		// Incializamos la puntuacion a cero
-		_score = 0;
+		// TODO
 
-		// Rellenamos la lista de enemigos actual. KEEP
+		// Rellenamos la lista de enemigos actual.
 		currentEnemiesList.Clear();
 		foreach (SkeletonBehaviour skeleton in enemiesList)
 		{
@@ -60,24 +54,24 @@ public class GameManager : MonoBehaviour
 	// Evento al pulsar boton 'Start'
 	public void onStartGameButton()
 	{
-		// Ocultamos el menu principal
-		UIManager.instance.hideMainMenu();
+		// Ocultamos el menu principal (UIManager)
+		// TODO
 
-		// Actualizamos la puntuacion en el panel Score
-		UIManager.instance.updateScore(_score);
+		// Actualizamos la puntuacion en el panel Score (UIManager)
+		// TODO
 
 		// Quitamos la pausa a Player
-		player.pause = false;
+		// TODO
 	}
 
 	// Evento al pulsar boton 'Exit'
 	public void onExitGameButton()
 	{
 		// Mostramos el panel principal
-		UIManager.instance.showMainMenu();
-		
+		// TODO
+
 		// Reseteamos el juego
-		reset();
+		// TODO
 	}
 	#endregion
 
@@ -86,18 +80,16 @@ public class GameManager : MonoBehaviour
 	public void notifyEnemyKilled(SkeletonBehaviour enemy)
 	{
 		// Eliminamos enemigo de la lista actual
-		currentEnemiesList.Remove(enemy);	// KEEP
+		currentEnemiesList.Remove(enemy);
 
 		// Subimos 10 puntos y actualizamos la puntuacion en la UI
-		_score += 10;
-		UIManager.instance.updateScore(_score);
+		// TODO
 
 		// Si no quedan enemmigos
 		if (currentEnemiesList.Count == 0)	// KEEP
 		{
 			// Mostrar panel de 'Mision cumplida' y pausar a Player
-			UIManager.instance.showEndPanel(true);
-			player.pause = true;
+			// TODO
 		}
 	}
 
@@ -105,8 +97,7 @@ public class GameManager : MonoBehaviour
 	public void notifyPlayerDead()
 	{
 		// Mostrar panel de 'Mision fallida' y pausar a Player
-		UIManager.instance.showEndPanel(false);
-		player.pause = true;
+		// TODO
 	}
 	#endregion
 }
